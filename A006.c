@@ -20,7 +20,7 @@ typedef struct cell {
 } CELL;
 CELL *table[BUCKET_SIZE];
 
-void init() {
+void initHash() {
   int i;
   for (i = 0; i < BUCKET_SIZE; i++) {
     table[i] = NULL;
@@ -94,6 +94,8 @@ bool isSquare(int a) {
 // 座標の印の管理はハッシュ関数で行うことでO(1)の判定が出来る。
 // 曲がり角に当たったときに方向を変えるようにする。ここで、規則性により時刻をt(>0)として、tが平方数または(1+4*t)が平方数のときに曲がり角にあたることを利用する。
 int main() {
+  initHash();
+
   int N;
   scanf("%d", &N);
   CIE dwarf[N_MAX];
