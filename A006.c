@@ -1,3 +1,9 @@
+// 「らせん状移動のシミュレーション」
+// 座標の印の管理はハッシュ関数で行うことでO(1)の判定が出来る。
+// 曲がり角に当たったときに方向を変えるようにする。
+// ここで、規則性により時刻をt(>0)として、
+// tが平方数または(1+4*t)が平方数のときに曲がり角にあたることを利用する。
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,21 +96,15 @@ bool isSquare(int a) {
   return false;
 }
 
-// 「らせん状移動のシミュレーション」
-// 座標の印の管理はハッシュ関数で行うことでO(1)の判定が出来る。
-// 曲がり角に当たったときに方向を変えるようにする。ここで、規則性により時刻をt(>0)として、tが平方数または(1+4*t)が平方数のときに曲がり角にあたることを利用する。
-int main() {
-  initHash();
-
-  int N;
-  scanf("%d", &N);
-  CIE dwarf[N_MAX];
+void input(CIE *dwarf, int N) {
   for (int i = 0; i < N; i++) {
     scanf("%d%d", &dwarf[i].x, &dwarf[i].y);
     insert(dwarf[i].x, dwarf[i].y);  // 時刻0での印付け
     dwarf[i].flag = true;
   }
+}
 
+int simulation(CIE *dwarf, int N) {
   int time = 0, counter = 0;
   while (1) {
     if (time != 0 && (isSquare(time) || isSquare(1 + 4 * time)))
@@ -127,9 +127,19 @@ int main() {
     for (int i = 0; i < N; i++) {
       if (dwarf[i].flag == false) cnt_false++;
     }
-    if (cnt_false == N) break;
+    if (cnt_false == N) return time;
     time++;
   }
-  printf("%d\n", time);
+}
+
+int main() {
+  initHash();
+
+  int N;
+  scanf("%d", &N);
+  CIE dwarf[N_MAX];
+  input(dwarf, N);
+
+  printf("%d\n", simulation(dwarf, N));
   return 0;
 }
