@@ -17,7 +17,7 @@ typedef struct {
   int x;
   int y;
   bool flag;  // 小人が動けるかどうか
-} CIE;
+} COORDINATE;
 
 typedef struct cell {
   int x;
@@ -96,7 +96,7 @@ bool isSquare(int a) {
   return false;
 }
 
-void input(CIE *dwarf, int N) {
+void input(COORDINATE *dwarf, int N) {
   for (int i = 0; i < N; i++) {
     scanf("%d%d", &dwarf[i].x, &dwarf[i].y);
     insert(dwarf[i].x, dwarf[i].y);  // 時刻0での印付け
@@ -104,7 +104,7 @@ void input(CIE *dwarf, int N) {
   }
 }
 
-int simulation(CIE *dwarf, int N) {
+int simulation(COORDINATE *dwarf, int N) {
   int time = 0, counter = 0;
   while (1) {
     if (time != 0 && (isSquare(time) || isSquare(1 + 4 * time)))
@@ -133,13 +133,11 @@ int simulation(CIE *dwarf, int N) {
 }
 
 int main() {
-  initHash();
-
   int N;
   scanf("%d", &N);
-  CIE dwarf[N_MAX];
+  initHash();
+  COORDINATE dwarf[N_MAX];
   input(dwarf, N);
-
   printf("%d\n", simulation(dwarf, N));
   return 0;
 }
